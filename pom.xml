@@ -10,7 +10,7 @@
     </parent>
     <groupId>tr.com.burakgul</groupId>
     <artifactId>spring-security-trainer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
     <name>spring-security-trainer</name>
     <description>Trainer project for Spring Boot</description>
 
