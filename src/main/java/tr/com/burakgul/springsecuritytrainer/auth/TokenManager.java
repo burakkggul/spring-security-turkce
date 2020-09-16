@@ -4,13 +4,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 /**
- * @author Burak GUL
+ * @author Burak GUL 15.09.2020
  */
 @Service
 public class TokenManager {
@@ -19,25 +19,26 @@ public class TokenManager {
      * Constructor injection ile environment'ı servisimize bağımlılık olarak ekliyoruz.
      * Bu sayede propertyler üzerinden bazı değerleri parametrik olarak alabileceğiz.
      *
-     * @param environment
+     * @param key
+     * @param expireTime
      */
     @Autowired
-    public TokenManager(Environment environment) {
-        this.environment = environment;
+    public TokenManager(@Value("${jwt.secret.key : verySecretKey}") String key,
+                        @Value("#{${token.expire.minute : 5} * 60 * 1000}") int expireTime) {
+        this.key = key;
+        this.expireTime=expireTime;
     }
-
-    private Environment environment;
 
     /**
      * JWT oluşturmak için kullanacağımız key'i application.properties üzerinden alıyoruz.
      */
-    private final String key = environment.getProperty("jwt.secret.key", "verySecretKey");
+    private final String key ;
 
     /**
      * Ne kadar sürede expire olacağı bilgisini de application.properties üzerinden alıyoruz.
      * 60*100 yaparak bu dakika değerini milisaniye cinsine çeviriyoruz.
      */
-    private final int expireTime = Integer.parseInt(environment.getProperty("token.expire.minute", "5")) * 60 * 1000;
+    private final int expireTime ;
 
     /**
      * Json Web Token ile ilgili detaylı bilgi için şu makaleden faydanlanabilirsiniz.
