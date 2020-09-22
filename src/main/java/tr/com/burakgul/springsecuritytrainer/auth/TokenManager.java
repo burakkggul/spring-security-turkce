@@ -61,7 +61,7 @@ public class TokenManager {
                 .setIssuer("burakgul.com.tr") //Issuer (oluşturan kurum kuruluş kişi) alanın setlenmesi.
                 .setIssuedAt(new Date(timeMillis)) //Oluşturulma zamanının setlenmesi.
                 .setExpiration(new Date(timeMillis + expireTime)) //Expire zamanının setlenmesi.
-                .signWith(SignatureAlgorithm.ES256, key) //Şifreleme algoritmasının ve tokenı encrypt (şifreleme)
+                .signWith(SignatureAlgorithm.HS512, key) //Şifreleme algoritmasının ve tokenı encrypt (şifreleme)
                 // decrypt (şifre çözme) yapmasını sağlayacak gizli keyin setlenmesi.
                 .compact(); //Tokenı string'e çevirecek metod.
         return token;
