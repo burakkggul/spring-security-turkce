@@ -24,24 +24,28 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.3.4.RELEASE</version>
         </dependency>
 
         <!--Security için kullanacağımız bağımlılığı ekliyoruz.-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.3.4.RELEASE</version>
         </dependency>
 
         <!--Web için kullanacağımız bağımlılığı ekliyoruz.-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.3.4.RELEASE</version>
         </dependency>
 
         <!--Eğitici bir uygulama olacağı için uygulama çalışırken kayıtları tutması için in memory database bağımlılığını ekliyoruz.-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <version>1.4.200</version>
             <scope>runtime</scope>
         </dependency>
 
