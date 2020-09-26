@@ -1,5 +1,7 @@
 package tr.com.burakgul.springsecuritytrainer.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import tr.com.burakgul.springsecuritytrainer.repositorys.UserRepository;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
@@ -46,8 +50,8 @@ public class AuthController {
             return ResponseEntity.ok(tokenManager.generateToken(loginDto.getUsername()));
 
         }catch (Exception e){
-            //TODO log
-            throw e;
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -61,8 +65,8 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The username or password is incorrect. Please try again.");
 
         }catch (Exception e){
-            //TODO log
-            throw e;
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
     }
