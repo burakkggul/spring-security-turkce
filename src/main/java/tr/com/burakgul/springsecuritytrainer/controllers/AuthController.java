@@ -3,6 +3,7 @@ package tr.com.burakgul.springsecuritytrainer.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,8 +47,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
         try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization","Bearer " + tokenManager.generateToken(loginDto.getUsername()));
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword()));
-            return ResponseEntity.ok(tokenManager.generateToken(loginDto.getUsername()));
+            return ResponseEntity.ok().headers(headers).body("Login Success");
 
         }catch (Exception e){
             logger.error(e.getMessage());

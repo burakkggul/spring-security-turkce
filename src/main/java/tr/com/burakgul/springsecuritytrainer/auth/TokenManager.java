@@ -103,7 +103,7 @@ public class TokenManager {
     public boolean hasTokenExpire(String token) {
         Claims claims = parseToken(token); //Tokenı tekrardan parse edip claimlerimizi alıyoruz.
         Date now = new Date(System.currentTimeMillis()); //Bir zaman oluşturuyoruz.
-        return claims.getExpiration().before(now); //expire time'ın yukarda oluştumuş olduğumuz zamandan sonra
+        return claims.getExpiration().after(now); //expire time'ın yukarda oluştumuş olduğumuz zamandan sonra
         // olup olmadığını kontrol ediyoruz.
     }
 
