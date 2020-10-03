@@ -15,16 +15,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tr.com.burakgul.springsecuritytrainer.auth.TokenManager;
 import tr.com.burakgul.springsecuritytrainer.dto.LoginDto;
-import tr.com.burakgul.springsecuritytrainer.dto.SignUpDto;
 import tr.com.burakgul.springsecuritytrainer.models.User;
 import tr.com.burakgul.springsecuritytrainer.repositorys.UserRepository;
 
-@RestController
-@RequestMapping("/auth")
+/**
+ * @author Burak GUL 09.22.2020
+ * Authentication işlemlerini bu sınıf üzerindeki rest endpointleri ile dışarıdan erişilebilir hale getireceğiz.
+ */
+@RestController //Controller anotasyonunun daha özel bir halidir.
+@RequestMapping("/auth") //Bu anotasyon ile gelen istekler ile sınıflar eşleştirilir.
 public class AuthController {
 
+    /*
+        Loglama için bir instance oluşturuyoruz.
+        Ayrıntılı bilgi için bkz: http://www.slf4j.org/manual.html
+    */
     Logger logger = LoggerFactory.getLogger(AuthController.class);
 
+    /*
+        Bu sınıf üzerinde kullanacağımız bağımlılıkları inject ediyoruz.
+    */
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
                           TokenManager tokenManager,
@@ -44,13 +54,24 @@ public class AuthController {
 
     private BCryptPasswordEncoder passwordEncoder;
 
-    @PostMapping("/login")
+    /**
+     * Gelen kullanıcı adı ve parola bilgilerine göre authentication sağlanır.
+     * response header'a generate edilen jwt token setlenir ve 200 http status kodu ile Login Success ibaresi response body'de gönderilir.
+     * Bilgilerde bir hata varsa 400 http status kodu ile The username or password is incorrect. Please try again.
+     * ibaresi response body'de gönderilir.
+     * @param loginDto
+     * @return
+     */
+    @PostMapping("/login") //auth/login 'e gelen web istekleri ile bu metodun eşleştirilmesi sağlanır.
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization","Bearer " + tokenManager.generateToken(loginDto.getUsername()));
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword()));
-            return ResponseEntity.ok().headers(headers).body("Login Success");
+            if(loginDto != null && loginDto.getUsername() != null && loginDto.getPassword() != null){
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword()));
+                HttpHeaders headers = new HttpHeaders();
+                headers.set("Authorization","Bearer " + tokenManager.generateToken(loginDto.getUsername()));
+                return ResponseEntity.ok().headers(headers).body("Login Success");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The username or password is incorrect. Please try again.");
 
         }catch (Exception e){
             logger.error(e.getMessage());
@@ -58,12 +79,19 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpDto signUpDto){
+    /**
+     * Kullanıcıdan alınan username ve password bilgisi database'e kaydedilir. 200 http status kodu ile username
+     * has been successfully registered ibaresi gönderilir. Eğer bir sorun oluşursa 400 http status kodu ile
+     * The username or password is incorrect. Please try again. response body'de gönderilir.
+     * @param loginDto
+     * @return
+     */
+    @PostMapping("/signup") //auth/signup 'a gelen web istekleri ile bu metodun eşleştirilmesi sağlanır.
+    public ResponseEntity<String> signUp(@RequestBody LoginDto loginDto){
         try {
-            if(signUpDto != null && signUpDto.getUsername() != null && signUpDto.getPassword() != null){
-                userRepository.save(new User(signUpDto.getUsername(),passwordEncoder.encode(signUpDto.getPassword())));
-                return ResponseEntity.ok(signUpDto.getUsername() +" has been successfully registered.");
+            if(loginDto != null && loginDto.getUsername() != null && loginDto.getPassword() != null){
+                userRepository.save(new User(loginDto.getUsername(),passwordEncoder.encode(loginDto.getPassword())));
+                return ResponseEntity.ok(loginDto.getUsername() +" has been successfully registered.");
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The username or password is incorrect. Please try again.");
 
