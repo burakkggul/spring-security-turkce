@@ -11,8 +11,11 @@ import tr.com.burakgul.springsecuritytrainer.repositorys.UserRepository;
 
 /**
  * @author Burak GUL 16.09.2020
+ * UserDetailsService arabirimi, kullanıcıyla ilgili verileri almak için kullanılır.
+ * Spring'in AuthenticationProvider'ı tarafından kimlik doğrulama sırasında kullanıcıyla ilgili işlemler
+ * override etmiş olduğumuz loadByUserName üzerinden yapılır.
  */
-@Component
+@Component //Spring context'de bu classtan bir bean oluşturmak için kullanıyoruz.
 public class UserDetailService implements UserDetailsService {
 
     @Autowired
