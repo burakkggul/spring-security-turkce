@@ -14,6 +14,8 @@ public class HealthCheckController {
 
     /**
      * Bu controller'ı uygulamanın requestlere sorunsuz cevap verip vermediğini test etmek için kullanabiliriz.
+     * Authenticate olmadan /healthCheck 'e gelen isteklere unauthorized şeklinde response dönülecektir.
+     * Öncelikli olarak /auth/login yolu ile authenticate olunması gerekmektedir.
      *
      * @return
      */
