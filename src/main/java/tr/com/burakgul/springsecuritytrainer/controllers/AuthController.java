@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tr.com.burakgul.springsecuritytrainer.auth.TokenManager;
 import tr.com.burakgul.springsecuritytrainer.dto.LoginDto;
 import tr.com.burakgul.springsecuritytrainer.models.User;
-import tr.com.burakgul.springsecuritytrainer.repositorys.UserRepository;
+import tr.com.burakgul.springsecuritytrainer.repositories.UserRepository;
 
 /**
  * @author Burak GUL 09.22.2020

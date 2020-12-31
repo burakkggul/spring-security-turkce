@@ -1,4 +1,4 @@
-package tr.com.burakgul.springsecuritytrainer.repositorys;
+package tr.com.burakgul.springsecuritytrainer.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import tr.com.burakgul.springsecuritytrainer.models.User;
