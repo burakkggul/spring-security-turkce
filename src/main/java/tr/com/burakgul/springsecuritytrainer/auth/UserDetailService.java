@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import tr.com.burakgul.springsecuritytrainer.models.User;
-import tr.com.burakgul.springsecuritytrainer.repositorys.UserRepository;
+import tr.com.burakgul.springsecuritytrainer.repositories.UserRepository;
 
 /**
  * @author Burak GUL 16.09.2020
