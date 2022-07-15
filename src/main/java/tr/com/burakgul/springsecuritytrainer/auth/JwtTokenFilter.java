@@ -28,13 +28,11 @@ import java.util.Objects;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    public JwtTokenFilter(TokenManager tokenManager, UserDetailService userDetailService){
+    public JwtTokenFilter(TokenManager tokenManager) {
         this.tokenManager = tokenManager;
-        this.userDetailService = userDetailService;
     }
 
     private TokenManager tokenManager;
-    private UserDetailService userDetailService;
 
     /**
      * Bu metod gelen her isteği karşılamaktadır.
@@ -67,7 +65,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             bu yüzden bir sonraki if bloğuna girmeyecek ve spring security context'e authenticate olamayacaktır.
             Bir hata oluşması durumunda hatayı loglayarak devam ediyoruz.
         */
-        if (tokenCore != null && tokenCore.contains("Bearer") && tokenCore.split(" ").length >1) {
+        if (tokenCore != null && tokenCore.contains("Bearer") && tokenCore.split(" ").length > 1) {
             token = tokenCore.split(" ")[1];
             try {
                 username = tokenManager.getUserFromToken(token);
@@ -81,16 +79,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             eğer authenticate olunmamışsa token'ın geçerli olup olmadığını kontrol ediyoruz. Token geçerli ise UsernamePasswordAuthenticationToken'ı
             username ile oluşturup context'e authentication'ı setliyoruz.
         */
-        if(token != null && username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            if(tokenManager.hasTokenValid(token)){
-                UserDetails user = this.userDetailService.loadUserByUsername(username);
-                if(Objects.nonNull(user)){
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,
-                            null,
-                            new ArrayList<>());
-                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                }
+        if (token != null && username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (tokenManager.hasTokenValid(token)) {
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+                        null,
+                        new ArrayList<>());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
         /*
@@ -99,6 +94,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         Detaylı bilgi için bkz:
         https://github.com/yusufyilmazfr/tasarim-desenleri-turkce-kaynak/tree/master/chain-of-responsibility/java
         https://www.mehmetcemyucel.com/2014/chain-of-responsibility-design-pattern/        */
-        filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

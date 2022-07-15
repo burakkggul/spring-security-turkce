@@ -1,4 +1,4 @@
-package tr.com.burakgul.springsecuritytrainer;
+package tr.com.burakgul.springsecuritytrainer.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -54,18 +54,6 @@ public class SpringSecurityTrainerConfiguration extends WebSecurityConfigurerAda
         this.userDetailService=userDetailService;
     }
 
-    /**
-     * AuthenticationManager oluşturmak için kullanılır. userDetailService adıyla yazmış olduğumuz UserDetailService interface'ini implemente eden classımızı
-     * tanıtarak authentication'ı bu servis üzerinden yapmasını sağlıyoruz. Tabi son olarak password encode olarak kullanacağımız class'ı da bu builder'a veriyoruz.
-     * Burada autowired ile oluşturmamızın sebebi burada bir bean oluşturulması ve başka classlardan da erişilebilir hale getirmektir.
-     * @param authenticationManagerBuilder
-     * @throws Exception
-     */
-    @Autowired
-    public void configurePasswordEncoder(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailService).passwordEncoder(getPasswordEncoder());
-    }
-
     private JwtTokenFilter jwtTokenFilter;
 
     private UserDetailService userDetailService;
@@ -87,6 +75,17 @@ public class SpringSecurityTrainerConfiguration extends WebSecurityConfigurerAda
     @Bean
     public BCryptPasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * AuthenticationManager oluşturmak için kullanılır. userDetailService adıyla yazmış olduğumuz UserDetailService interface'ini implemente eden classımızı
+     * tanıtarak authentication'ı bu servis üzerinden yapmasını sağlıyoruz. Tabi son olarak password encode olarak kullanacağımız class'ı da bu builder'a veriyoruz.
+     * @param authenticationManagerBuilder
+     * @throws Exception
+     */
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailService).passwordEncoder(getPasswordEncoder());
     }
 
     /**

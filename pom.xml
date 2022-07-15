@@ -5,12 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.6.7</version>
         <relativePath/>
     </parent>
+
     <groupId>tr.com.burakgul</groupId>
     <artifactId>spring-security-trainer</artifactId>
-    <version>1.0.0-RELEASE</version>
+    <version>1.0.1</version>
     <name>spring-security-trainer</name>
     <description>Trainer project for Spring Boot</description>
 
@@ -24,28 +25,25 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>2.3.4.RELEASE</version>
         </dependency>
 
         <!--Security için kullanacağımız bağımlılığı ekliyoruz.-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <version>2.3.4.RELEASE</version>
         </dependency>
 
         <!--Web için kullanacağımız bağımlılığı ekliyoruz.-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.3.4.RELEASE</version>
         </dependency>
 
         <!--Eğitici bir uygulama olacağı için uygulama çalışırken kayıtları tutması için in memory database bağımlılığını ekliyoruz.-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version>
+            <version>2.1.212</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -54,6 +52,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+            <version>1.18.24</version>
         </dependency>
 
         <!-- JWT token'ı ile ilgili implementasyonları içeren bağımlılık-->
