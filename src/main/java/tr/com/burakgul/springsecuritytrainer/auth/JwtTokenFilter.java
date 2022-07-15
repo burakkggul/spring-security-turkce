@@ -28,11 +28,13 @@ import java.util.Objects;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    public JwtTokenFilter(TokenManager tokenManager) {
+    public JwtTokenFilter(TokenManager tokenManager, UserDetailService userDetailService) {
         this.tokenManager = tokenManager;
+        this.userDetailService = userDetailService;
     }
 
     private TokenManager tokenManager;
+    private UserDetailService userDetailService;
 
     /**
      * Bu metod gelen her isteği karşılamaktadır.
@@ -81,11 +83,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         */
         if (token != null && username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (tokenManager.hasTokenValid(token)) {
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
-                        null,
-                        new ArrayList<>());
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                UserDetails user = this.userDetailService.loadUserByUsername(username);
+                if (Objects.nonNull(user)) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,
+                            null,
+                            new ArrayList<>());
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
             }
         }
         /*
