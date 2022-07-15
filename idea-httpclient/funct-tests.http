@@ -1,0 +1,21 @@
+### Signup Request
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "username": "burak",
+  "password": "123"
+}
+
+### Login Request
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "burak",
+  "password": "123"
+}
+
+### HealthCheck Request
+GET http://localhost:8080/healthCheck
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJidXJhayIsImlzcyI6ImJ1cmFrZ3VsLmNvbS50ciIsImlhdCI6MTY1Nzg5MTg1MCwiZXhwIjoxNjU3ODkyMTUwfQ.9NbJxa4WMN4s-bRe_lo-hNOfYZ6oK5STncUdD3wr1onDidKV57QRIkTk5kZDAeZK7scE0cTu-CWvvYYcFPmzFA
