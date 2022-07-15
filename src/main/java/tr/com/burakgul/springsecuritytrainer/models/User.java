@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @NoArgsConstructor //Parametre almayan bir constructor oluşturmak için kullanılır.
 @AllArgsConstructor //Tüm parametreleri içeren bir constructor oluşturmak için kullanılır.
 @Entity //Bu modelin bir database entitysi olduğunu ifade eder. Class'ı entity bean olarak işaretler.
-@Table(name = "user") //Table olduğunu belirtip bu table'a bir isim veriyoruz. Bu anotasyon'un verilmesi zorunlu değildir.
+@Table(name = "users") //Table olduğunu belirtip bu table'a bir isim veriyoruz. Bu anotasyon'un verilmesi zorunlu değildir.
 // Entity'e ekstra özellikler kazandırılmak istenirse (biz şimdilik sadece isim vermek için kullandık) bu anotasyon kullanılabilir.
 //Eğer kullanılmazsa isim olarak class'ın ismini alır.
 public class User {
